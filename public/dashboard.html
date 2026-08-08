@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gmail Triage Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;550;600;650;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1>Gmail Triage</h1>
+      <p class="subtitle" style="margin:0;">Configure categories, then run triage.</p>
+    </div>
+    <div>
+      <span class="user-email" id="userEmail"></span>
+      &nbsp;·&nbsp; <a href="/logout">Log out</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">1</span> Categories</h2>
+    <p class="hint">Each category becomes a Gmail label. List a few keywords that identify it (matched against subject/snippet/sender), and optionally add a draft reply.</p>
+    <div id="categories"></div>
+    <div class="actions-row">
+      <button class="btn-secondary" onclick="addCategory()">+ Add category</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">2</span> Scan settings</h2>
+    <div class="settings-grid">
+      <div class="field">
+        <label class="small">Base Gmail filter</label>
+        <input type="text" id="baseQuery" value="in:inbox is:unread">
+      </div>
+      <div class="field">
+        <label class="small">Days to look back</label>
+        <select id="scanDays">
+          <option value="1">1 day</option>
+          <option value="2">2 days</option>
+          <option value="3" selected>3 days</option>
+          <option value="5">5 days</option>
+          <option value="7">7 days</option>
+          <option value="10">10 days</option>
+        </select>
+      </div>
+    </div>
+    <div class="toggle-line">
+      <input type="checkbox" id="dryRun" class="toggle" checked>
+      <label for="dryRun">Preview only (dry run) — don't apply labels or create drafts, just show what would happen</label>
+    </div>
+    <div class="footer-note">Triage only creates drafts automatically — nothing is ever sent without you clicking Send on that specific draft below.</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">3</span> Run</h2>
+    <div class="actions-row">
+      <button class="btn-run" id="runBtn" onclick="runTriage()">Run triage</button>
+      <button class="btn-secondary" onclick="saveConfig(true)">Save settings</button>
+    </div>
+    <div class="dry-run-banner" id="dryBanner">Dry run is ON — this run will only preview matches, nothing will change in Gmail.</div>
+    <div class="status" id="status"></div>
+    <div id="results"></div>
+  </div>
+</div>
+<script src="dashboard.js?v=4"></script>
+</body>
+</html>
